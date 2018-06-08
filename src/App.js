@@ -1,18 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Display from './Components/Display';
 import './App.css';
 
 class App extends Component {
+    state ={
+      contacts:[]
+    };
+
+
+
+    getContactInfo = async (e) => {
+        e.preventDefault();
+        const api_call = await fetch(`https://7c8d280c.ngrok.io/`);
+        const data = await api_call.json();
+        this.setState({
+            contacts: data,
+        });
+
+    };
+
+    renderInfo (){
+        return this.getContactInfo();
+    };
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          <h1 className="App-title">Displaying Ruby Contacts</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+          <Display getContactInfo = {this.getContactInfo} contacts={this.state.contacts}/>
+          {console.log(this.state.contacts)}
       </div>
     );
   }
